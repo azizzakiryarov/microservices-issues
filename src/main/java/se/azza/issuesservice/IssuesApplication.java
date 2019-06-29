@@ -1,4 +1,4 @@
-package se.azza.issuesservice.issues;
+package se.azza.issuesservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class IssuesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(IssuesApplication.class, args);
 	}
-
 }
