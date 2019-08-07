@@ -15,16 +15,24 @@ public class Issue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	@Column(name = "comment", nullable = false)
 	private String comment;
 	@Column(name = "state", nullable = false)
 	private String state;
-	
+
 	@ManyToOne
 	private User user;
 
 	public Issue() {
+	}
+
+	public Issue(long id, String comment, String state, User user) {
+		super();
+		this.id = id;
+		this.comment = comment;
+		this.state = state;
+		this.user = user;
 	}
 
 	public Issue(String comment, String state, User user) {
@@ -32,11 +40,6 @@ public class Issue {
 		this.comment = comment;
 		this.state = state;
 		this.user = user;
-	}
-
-	public Issue(String comment2, String state2, Long userId) {
-		this.comment = comment2;
-		this.state = state2;
 	}
 
 	public long getId() {
@@ -109,5 +112,6 @@ public class Issue {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
-	}	
+	}
+
 }
