@@ -1,18 +1,19 @@
 package se.azza.issuesservice.model;
 
-import java.util.Collection;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import se.azza.issuesservice.constants.States.userState;;
 
 @Entity
 @Table(name = "users")
-public class User {
+public final class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,20 +26,20 @@ public class User {
 	private String userName;
 	@Column(name = "password", nullable = false, unique = true)
 	private String password;
+	@Enumerated(EnumType.STRING)
+	private userState userState;
 
 	public User() {
 	}
-	
-	@OneToMany(mappedBy = "user")
-	private Collection<Issue> issues;
 
-	public User(long id, String firstName, String lastName, String userName, String password) {
+	public User(long id, String firstName, String lastName, String userName, String password, userState userState) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
+		this.userState = userState;
 	}
 
 	public User(String firstName, String lastName, String userName, String password) {
@@ -47,6 +48,7 @@ public class User {
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
+		this.userState = se.azza.issuesservice.constants.States.userState.ACTIVE;
 	}
 
 	public long getId() {
@@ -87,5 +89,62 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public userState getUserState() {
+		return userState;
+	}
+
+	public void setUserState(userState userState) {
+		this.userState = userState;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((userState == null) ? 0 : userState.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (id != other.id)
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
+		if (userState != other.userState)
+			return false;
+		return true;
 	}
 }

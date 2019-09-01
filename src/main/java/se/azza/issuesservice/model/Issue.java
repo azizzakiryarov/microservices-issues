@@ -2,11 +2,15 @@ package se.azza.issuesservice.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import se.azza.issuesservice.constants.States.issueState;
 
 @Entity
 @Table(name = "issues")
@@ -18,8 +22,8 @@ public class Issue {
 
 	@Column(name = "comment", nullable = false)
 	private String comment;
-	@Column(name = "state", nullable = false)
-	private String state;
+	@Enumerated(EnumType.STRING)
+	private issueState issueState;
 
 	@ManyToOne
 	private User user;
@@ -27,18 +31,18 @@ public class Issue {
 	public Issue() {
 	}
 
-	public Issue(long id, String comment, String state, User user) {
+	public Issue(long id, String comment, issueState issueState, User user) {
 		super();
 		this.id = id;
 		this.comment = comment;
-		this.state = state;
+		this.issueState = issueState;
 		this.user = user;
 	}
 
-	public Issue(String comment, String state, User user) {
+	public Issue(String comment, User user) {
 		super();
 		this.comment = comment;
-		this.state = state;
+		this.issueState = se.azza.issuesservice.constants.States.issueState.INWORK;
 		this.user = user;
 	}
 
@@ -58,12 +62,12 @@ public class Issue {
 		this.comment = comment;
 	}
 
-	public String getState() {
-		return state;
+	public issueState getIssueState() {
+		return issueState;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setIssueState(issueState issueState) {
+		this.issueState = issueState;
 	}
 
 	public User getUser() {
@@ -80,7 +84,7 @@ public class Issue {
 		int result = 1;
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result + ((issueState == null) ? 0 : issueState.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -101,10 +105,7 @@ public class Issue {
 			return false;
 		if (id != other.id)
 			return false;
-		if (state == null) {
-			if (other.state != null)
-				return false;
-		} else if (!state.equals(other.state))
+		if (issueState != other.issueState)
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -113,5 +114,4 @@ public class Issue {
 			return false;
 		return true;
 	}
-
 }
