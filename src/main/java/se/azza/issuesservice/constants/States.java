@@ -11,7 +11,12 @@ public class States {
 		INWORK,
 		PAUSED,
 		REOPENED,
-		RESOLVED,
+		SOLVED,
 		CLOSED
+	}
+	
+	public enum userRole {
+		ADMIN,
+		USER
 	}
 }

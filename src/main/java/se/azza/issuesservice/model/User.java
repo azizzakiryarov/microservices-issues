@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import se.azza.issuesservice.constants.States.userState;;
+import se.azza.issuesservice.constants.States.userState;
+import se.azza.issuesservice.constants.States.userRole;
 
 @Entity
 @Table(name = "users")
@@ -28,11 +28,14 @@ public final class User {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private userState userState;
+	@Enumerated(EnumType.STRING)
+	private userRole userRole;
 
 	public User() {
 	}
 
-	public User(long id, String firstName, String lastName, String userName, String password, userState userState) {
+	public User(long id, String firstName, String lastName, String userName, String password, userState userState,
+			userRole userRole) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -40,15 +43,17 @@ public final class User {
 		this.userName = userName;
 		this.password = password;
 		this.userState = userState;
+		this.userRole = userRole;
 	}
 
-	public User(String firstName, String lastName, String userName, String password) {
+	public User(String firstName, String lastName, String userName, String password, userRole userRole) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
 		this.userState = se.azza.issuesservice.constants.States.userState.ACTIVE;
+		this.userRole = userRole;
 	}
 
 	public long getId() {
@@ -99,6 +104,14 @@ public final class User {
 		this.userState = userState;
 	}
 
+	public userRole getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(userRole userRole) {
+		this.userRole = userRole;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -108,6 +121,7 @@ public final class User {
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
 		result = prime * result + ((userState == null) ? 0 : userState.hashCode());
 		return result;
 	}
@@ -142,6 +156,8 @@ public final class User {
 			if (other.userName != null)
 				return false;
 		} else if (!userName.equals(other.userName))
+			return false;
+		if (userRole != other.userRole)
 			return false;
 		if (userState != other.userState)
 			return false;
