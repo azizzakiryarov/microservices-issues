@@ -1,5 +1,6 @@
 package se.azza.issuesservice.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,7 +38,7 @@ public final class User {
 	@ManyToOne
 	private Team team;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL) 
 	private Role role;
 
 	public User(long id, String firstName, String lastName, String userName, String password, userState userState,
