@@ -11,6 +11,6 @@ public class RestTemplates {
 	}
 
 	public static User getUserById(RestTemplate restTemplate, long userId) {
-		return restTemplate.getForObject("http://microservices-users/users/get/" + userId, User.class);
+		return restTemplate.getForObject("http://microservices-users-deployment-0.microservices-users.microservices.svc.cluster.local:8081/users/get/" + userId, User.class);
 	}
 }

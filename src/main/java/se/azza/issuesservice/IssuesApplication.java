@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class IssuesApplication {
 
 	@Bean
-	@LoadBalanced
+	//@LoadBalanced (later I'm going to use loadbalancer with few instances)
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
