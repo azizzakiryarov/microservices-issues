@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: microservices-issues
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: issues
   ports:
