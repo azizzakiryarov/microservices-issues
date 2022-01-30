@@ -1,0 +1,1 @@
+kubectl delete deployment.apps/microservices-issues-deployment service/microservices-issues
