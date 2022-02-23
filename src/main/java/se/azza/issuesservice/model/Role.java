@@ -8,8 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
 import se.azza.issuesservice.constants.States.userRole;
 
+import java.util.Objects;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -25,71 +32,16 @@ public class Role {
 	public Role() {
 	}
 
-	public Role(long id, userRole userRole, String roleDescription) {
-		super();
-		this.id = id;
-		this.userRole = userRole;
-		this.roleDescription = roleDescription;
-	}
-
-	public Role(userRole userRole, String roleDescription) {
-		super();
-		this.userRole = userRole;
-		this.roleDescription = roleDescription;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public userRole getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(userRole userRole) {
-		this.userRole = userRole;
-	}
-
-	public String getRoleDescription() {
-		return roleDescription;
-	}
-
-	public void setRoleDescription(String roleDescription) {
-		this.roleDescription = roleDescription;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Role role = (Role) o;
+		return id == role.id && userRole == role.userRole && roleDescription.equals(role.roleDescription);
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((roleDescription == null) ? 0 : roleDescription.hashCode());
-		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Role other = (Role) obj;
-		if (id != other.id)
-			return false;
-		if (roleDescription == null) {
-			if (other.roleDescription != null)
-				return false;
-		} else if (!roleDescription.equals(other.roleDescription))
-			return false;
-		if (userRole != other.userRole)
-			return false;
-		return true;
+		return Objects.hash(id, userRole, roleDescription);
 	}
 }

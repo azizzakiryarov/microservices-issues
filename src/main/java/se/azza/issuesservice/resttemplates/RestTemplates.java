@@ -4,6 +4,8 @@ import org.springframework.web.client.RestTemplate;
 
 import se.azza.issuesservice.model.User;
 
+import static se.azza.issuesservice.constants.Urls.GET_USER_BY_ID;
+
 public class RestTemplates {
 
 	public RestTemplates() {
@@ -11,6 +13,6 @@ public class RestTemplates {
 	}
 
 	public static User getUserById(RestTemplate restTemplate, long userId) {
-		return restTemplate.getForObject("http://microservices-users-deployment-0.microservices-users.microservices.svc.cluster.local:8081/users/get/" + userId, User.class);
+		return restTemplate.getForObject(GET_USER_BY_ID + userId, User.class);
 	}
 }
