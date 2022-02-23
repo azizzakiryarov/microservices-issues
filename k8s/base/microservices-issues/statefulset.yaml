@@ -4,9 +4,9 @@ metadata:
   name: microservices
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: microservices-issues-deployment
+  name: microservices-issues-statefulset
   namespace: microservices
 spec:
   replicas: 1
@@ -14,6 +14,7 @@ spec:
     matchLabels:
       app: issues
       tier: backend
+  serviceName: "microservices-issues"
   template:
     metadata:
       labels:

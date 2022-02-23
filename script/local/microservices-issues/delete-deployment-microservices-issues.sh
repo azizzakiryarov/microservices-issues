@@ -1,1 +1,1 @@
-kubectl delete deployment.apps/microservices-issues-deployment service/microservices-issues
+kubectl delete statefulset.apps/microservices-issues-statefulset service/microservices-issues
