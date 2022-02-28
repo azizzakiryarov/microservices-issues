@@ -12,8 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import se.azza.issuesservice.constants.States.userState;
 
 import java.util.Objects;
@@ -21,8 +20,10 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
-public final class User {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,9 +38,6 @@ public final class User {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private userState userState;
-
-	public User() {
-	}
 
 	@ManyToOne
 	private Team team;

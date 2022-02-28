@@ -19,7 +19,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "teams")
-public final class Team {
+public class Team {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
