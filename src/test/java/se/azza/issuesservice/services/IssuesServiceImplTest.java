@@ -25,9 +25,9 @@ import static se.azza.issuesservice.resttemplates.RestTemplates.getUserById;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-public class IssuesServiceTest {
+public class IssuesServiceImplTest {
 
-    IssueService issueService;
+    IssueServiceImpl issueServiceImpl;
 
     @Mock
     UserRepository mockUserRepository;
@@ -79,7 +79,7 @@ public class IssuesServiceTest {
 
         mockIssue = new Issue("Bla bla bla", mockUser);
 
-        issueService = new IssueService(mockIssueRepository, mockUserRepository, mockRestTemplateWebClient);
+        issueServiceImpl = new IssueServiceImpl(mockIssueRepository, mockUserRepository, mockRestTemplateWebClient);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class IssuesServiceTest {
         when(getUserById(mockRestTemplateWebClient, mockUser.getId())).thenReturn(mockUser);
         when(mockIssueRepository.save(mockIssue)).thenReturn(mockIssue);
 
-        ResponseEntity<Issue> actualIssueResponseEntity = issueService.addIssueToUser(mockIssue.getComment(), mockUser.getId());
+        ResponseEntity<Issue> actualIssueResponseEntity = issueServiceImpl.addIssueToUser(mockIssue.getComment(), mockUser.getId());
         Assert.assertEquals(expectedIssueResponseEntity, actualIssueResponseEntity);
     }
 
@@ -101,7 +101,7 @@ public class IssuesServiceTest {
 
         when(getUserById(mockRestTemplateWebClient, 2L)).thenReturn(null);
 
-        ResponseEntity<Issue> actualIssueResponseEntity = issueService.addIssueToUser(anyString(), anyLong());
+        ResponseEntity<Issue> actualIssueResponseEntity = issueServiceImpl.addIssueToUser(anyString(), anyLong());
         Assert.assertEquals(expectedIssueResponseEntity, actualIssueResponseEntity);
     }
 
@@ -112,7 +112,7 @@ public class IssuesServiceTest {
 
         when(RestTemplates.getUserById(mockRestTemplateWebClient, 0L)).thenThrow(new RestClientException("Error"));
 
-        ResponseEntity<Issue> actualIssueResponseEntity = issueService.addIssueToUser(anyString(), anyLong());
+        ResponseEntity<Issue> actualIssueResponseEntity = issueServiceImpl.addIssueToUser(anyString(), anyLong());
 
         Assert.assertEquals(expectedIssueResponseEntity, actualIssueResponseEntity);
     }

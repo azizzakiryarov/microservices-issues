@@ -3,7 +3,7 @@ package se.azza.issuesservice.resources;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,36 +17,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import se.azza.issuesservice.constants.States;
 import se.azza.issuesservice.constants.States.issueState;
 import se.azza.issuesservice.model.Issue;
 import se.azza.issuesservice.model.User;
 import se.azza.issuesservice.repository.IssuesRepository;
 import se.azza.issuesservice.repository.UserRepository;
 import se.azza.issuesservice.resttemplates.RestTemplates;
-import se.azza.issuesservice.services.IssueService;
+import se.azza.issuesservice.services.IssueServiceImpl;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/issues")
 public class IssuesResources {
 
-	@Autowired
-	IssuesRepository issuesRepository;
-
-	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	IssueService issueService;
-
-	@Autowired
-	RestTemplate restTemplate;
+	private final IssuesRepository issuesRepository;
+	private final UserRepository userRepository;
+	private final IssueServiceImpl issueServiceImpl;
+	private final RestTemplate restTemplate;
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping("/add")
 	public ResponseEntity<Issue> addIssueToUser(@RequestParam(value = "comment") String comment,
 			@RequestParam(value = "userId") long userId) {
-		return issueService.addIssueToUser(comment, userId);
+		return issueServiceImpl.addIssueToUser(comment, userId);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -92,7 +85,7 @@ public class IssuesResources {
 		if (issues.contains(issue.get())) {
 			issuesRepository.deleteById(id);
 		}
-		IssueService.isIssuesEmptyForUser(restTemplate, issuesRepository, userRepository, userId);
+		IssueServiceImpl.isIssuesEmptyForUser(restTemplate, issuesRepository, userRepository, userId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
