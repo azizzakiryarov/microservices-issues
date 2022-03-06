@@ -92,6 +92,7 @@ public class IssuesServiceImplTest {
 
         ResponseEntity<Issue> actualIssueResponseEntity = issueServiceImpl.addIssueToUser(mockIssue.getComment(), mockUser.getId());
         Assert.assertEquals(expectedIssueResponseEntity, actualIssueResponseEntity);
+        verify(mockIssueRepository).save(mockIssue);
     }
 
     @Test
@@ -103,6 +104,7 @@ public class IssuesServiceImplTest {
 
         ResponseEntity<Issue> actualIssueResponseEntity = issueServiceImpl.addIssueToUser(anyString(), anyLong());
         Assert.assertEquals(expectedIssueResponseEntity, actualIssueResponseEntity);
+        verify(mockIssueRepository, times(0)).save(mockIssue);
     }
 
     @Test
@@ -113,8 +115,8 @@ public class IssuesServiceImplTest {
         when(RestTemplates.getUserById(mockRestTemplateWebClient, 0L)).thenThrow(new RestClientException("Error"));
 
         ResponseEntity<Issue> actualIssueResponseEntity = issueServiceImpl.addIssueToUser(anyString(), anyLong());
-
         Assert.assertEquals(expectedIssueResponseEntity, actualIssueResponseEntity);
+        verify(mockIssueRepository, times(0)).save(mockIssue);
     }
 
     @Test
