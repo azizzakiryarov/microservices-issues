@@ -37,21 +37,20 @@ public class IssuesResources {
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping("/add")
-	public ResponseEntity<Issue> addIssueToUser(@RequestParam(value = "comment") String comment,
+	public ResponseEntity<Issue> addIssueToUser(
+			@RequestParam(value = "comment") String comment,
 			@RequestParam(value = "userId") long userId) {
 		return issueServiceImpl.addIssueToUser(comment, userId);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Issue> updateIssueForUser(@PathVariable(value = "id") Long id,
-			@RequestParam(value = "userId") long userId, @RequestParam(value = "comment") String comment,
+	public ResponseEntity<Issue> updateIssueForUser(
+			@PathVariable(value = "id") Long issueId,
+			@RequestParam(value = "userId") Long userId,
+			@RequestParam(value = "comment") String comment,
 			@RequestParam(value = "issueState") issueState issueState) {
-		User user = RestTemplates.getUserById(restTemplate, userId);
-		Optional<Issue> currentIssue = issuesRepository.findById(id);
-		Issue issue = new Issue(currentIssue.get().getId(), comment, issueState, user);
-		issuesRepository.save(issue);
-		return new ResponseEntity<>(issue, HttpStatus.OK);
+		return issueServiceImpl.updateIssueForUser(issueId, userId, comment, issueState);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

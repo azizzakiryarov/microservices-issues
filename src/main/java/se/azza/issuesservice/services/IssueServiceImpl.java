@@ -2,6 +2,7 @@ package se.azza.issuesservice.services;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import se.azza.issuesservice.constants.States;
+import se.azza.issuesservice.constants.States.issueState;
 import se.azza.issuesservice.model.Issue;
 import se.azza.issuesservice.model.User;
 import se.azza.issuesservice.repository.IssuesRepository;
@@ -41,7 +43,31 @@ public class IssueServiceImpl implements IssueService {
                 return new ResponseEntity<>(savedIssue, HttpStatus.CREATED);
             }
         } catch (RestClientException restClientException) {
-            log.debug("User with userId: {} is not found! ", userId);
+            log.debug("User with userId: {} didn't get from service! ", userId);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+    }
+
+    @Override
+    public ResponseEntity<Issue> updateIssueForUser(Long issueId, Long userId, String comment, issueState issueState) {
+        try {
+            User user = RestTemplates.getUserById(restTemplate, userId);
+            if (Objects.nonNull(user)) {
+                Optional<Issue> currentIssue = Optional.ofNullable(issuesRepository.findById(issueId)
+                        .orElseThrow(() -> new IllegalStateException("Issue was not found!")));
+                if (currentIssue.isPresent()) {
+                    Issue issue = new Issue(currentIssue.get().getId(), comment, issueState, user);
+                    log.info("Trying to save issue with comment: {}, to user: {}", comment, user.getUserName());
+                    issuesRepository.save(issue);
+                    log.info("Successfully saved issue with comment: {}, to user: {}", comment, user.getUserName());
+                    return new ResponseEntity<>(issue, HttpStatus.OK);
+                }
+                log.info("Issue was not updated issueId: {}, for user: {}", issueId, user.getUserName());
+                return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+            }
+        } catch (RestClientException restClientException) {
+            log.debug("User with userId: {} didn't get from service! ", userId);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
