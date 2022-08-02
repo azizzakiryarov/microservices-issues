@@ -30,4 +30,7 @@ spec:
               protocol: TCP
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: 6600Fold
+              valueFrom:
+                secretKeyRef:
+                  name: mysqldb-secret
+                  key: mysql-root-password
