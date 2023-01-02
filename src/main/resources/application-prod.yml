@@ -1,0 +1,18 @@
+server:
+  port: 8869
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 6600Fold
+    url: jdbc:mysql://mysql-service:3306/microservices?allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+    baseurl: http://microservices.issues.se
+  zipkin:
+    base-url: http://localhost:9411
+  application:
+    name: microservices-issues
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update

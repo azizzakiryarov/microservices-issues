@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: microservices-issues
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: issues
   ports:
     - protocol: TCP
-      port: 8869
+      port: 80
       targetPort: 8869

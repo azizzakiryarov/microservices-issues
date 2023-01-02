@@ -54,7 +54,7 @@ public class IssuesResources {
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@PutMapping(value = "/updateState/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/updatestate/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Issue> updateState(@PathVariable(value = "id") Long id,
 			@RequestParam(value = "issueState") issueState issueState) {
 		Optional<Issue> currentIssue = issuesRepository.findById(id);
@@ -64,7 +64,7 @@ public class IssuesResources {
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@PutMapping(value = "/assignIssueTo/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/assignissueto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Issue> assignIssueTo(@PathVariable(value = "id") Long id,
 			@RequestParam(value = "userId") long userId) {
 		User user = RestTemplates.getUserById(restTemplate, userId);
@@ -89,21 +89,21 @@ public class IssuesResources {
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "/getAllIssuesFor/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/getallissuesfor/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Issue>> getUserIssues(@PathVariable(value = "userId") long userId) {
 		List<Issue> issues = issuesRepository.findByUserId(userId);
 		return new ResponseEntity<>(issues, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "/getIssues", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/getissues", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Issue>> getIssues() {
 		List<Issue> issues = issuesRepository.findAll();
 		return new ResponseEntity<>(issues, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping(path = "/getUsedId/{issueId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/getusedid/{issueId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Long> getUserId(@PathVariable(value = "issueId") long issueId) {
 		Optional<Issue> issue = issuesRepository.findById(issueId);
 		return new ResponseEntity<>(issue.get().getUser().getId(), HttpStatus.OK);
